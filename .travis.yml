@@ -1,0 +1,26 @@
+## Documentation: http://docs.travis-ci.com/user/languages/julia/
+language: julia
+os:
+  - linux
+julia:
+  - 0.6
+  - nightly
+notifications:
+email: false
+matrix:
+  allow_failures:
+    - julia: nightly
+addons:
+ apt:
+   packages:
+     - libiomp5
+     - libiomp-dev
+
+after_success:
+  # push coverage results to Coveralls
+  - julia -e 'cd(Pkg.dir("SAASGP4")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  # push coverage results to Codecov
+  - julia -e 'cd(Pkg.dir("SAASGP4")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  # Build documentation
+  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'cd(Pkg.dir("SAASGP4")); include(joinpath("docs", "make.jl"))'
