@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/benelsen/SAASGP4.jl.svg?branch=master)](https://travis-ci.org/benelsen/SAASGP4.jl)
 [![codecov.io](http://codecov.io/github/benelsen/SAASGP4.jl/coverage.svg?branch=master)](http://codecov.io/github/benelsen/SAASGP4.jl?branch=master)
-[![Coverage Status](https://coveralls.io/repos/benelsen/SAASGP4.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/benelsen/SAASGP4.jl?branch=master)
-
+[![Coverage Status](https://coveralls.io/repos/github/benelsen/SAASGP4.jl/badge.svg?branch=master)](https://coveralls.io/github/benelsen/SAASGP4.jl?branch=master)
 <!--
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://benelsen.github.io/SAASGP4.jl/stable/)
 -->
