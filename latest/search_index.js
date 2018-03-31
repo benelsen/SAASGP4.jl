@@ -17,14 +17,6 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "index.html#Features-1",
-    "page": "Home",
-    "title": "Features",
-    "category": "section",
-    "text": "TODOFeature 1\nFeature 2\nFeature 3"
-},
-
-{
     "location": "index.html#Manual-1",
     "page": "Home",
     "title": "Manual",
@@ -69,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Guide",
     "title": "Installation",
     "category": "section",
-    "text": "Pkg.add(\"SAASGP4.jl\")"
+    "text": "Pkg.add(\"https://github.com/benelsen/SAASGP4.jl\")<!–Pkg.add(\"SAASGP4\")–>"
 },
 
 {
