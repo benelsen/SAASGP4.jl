@@ -61,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Guide",
     "title": "Installation",
     "category": "section",
-    "text": "Pkg.add(\"https://github.com/benelsen/SAASGP4.jl\")<!–Pkg.add(\"SAASGP4\")–>"
+    "text": "Pkg.add(\"https://github.com/benelsen/SAASGP4.jl\")"
 },
 
 {
