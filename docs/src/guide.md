@@ -6,12 +6,6 @@
 Pkg.add("https://github.com/benelsen/SAASGP4.jl")
 ```
 
-<!--
-```julia
-Pkg.add("SAASGP4")
-```
--->
-
 ## Usage
 
 ```julia
