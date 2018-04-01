@@ -271,6 +271,17 @@ function astroFuncInit(mainHandle)
     end
 end
 
+"""
+    astroFuncGetInfo()
+
+Returns information about the AstroFunc DLL
+"""
+function astroFuncGetInfo()
+    msg = repeat(" ", 128)
+    ccall((:AstroFuncGetInfo, astrofunc), Nothing, (Cstring,), msg)
+    strip(msg)
+end
+
 
 # TimeFunc
 
@@ -284,6 +295,17 @@ function timeFuncInit(mainHandle)
     if errCode != 0
         error(getLastErrMsg())
     end
+end
+
+"""
+    timeFuncGetInfo()
+
+Returns information about the TimeFunc DLL
+"""
+function timeFuncGetInfo()
+    msg = repeat(" ", 128)
+    ccall((:TimeFuncGetInfo, timefunc), Nothing, (Cstring,), msg)
+    strip(msg)
 end
 
 """
@@ -308,6 +330,17 @@ function tleInit(mainHandle)
     if errCode != 0
         error(getLastErrMsg())
     end
+end
+
+"""
+    tleGetInfo()
+
+Returns information about the Tle DLL
+"""
+function tleGetInfo()
+    msg = repeat(" ", 128)
+    ccall((:TleGetInfo, tle), Nothing, (Cstring,), msg)
+    strip(msg)
 end
 
 """
@@ -364,6 +397,17 @@ function sgp4Init(mainHandle)
     if errCode != 0
         error(getLastErrMsg())
     end
+end
+
+"""
+    sgp4GetInfo()
+
+Returns information about the Sgp4 DLL
+"""
+function sgp4GetInfo()
+    msg = repeat(" ", 128)
+    ccall((:Sgp4GetInfo, sgp4prop), Nothing, (Cstring,), msg)
+    strip(msg)
 end
 
 """
