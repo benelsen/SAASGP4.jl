@@ -43,7 +43,8 @@ end
     end
 
     @testset "envGetGeoStr" begin
-        @test_broken SAASGP4.envGetGeoStr()
+        @test SAASGP4.envGetGeoStr() isa AbstractString
+        @test SAASGP4.envGetGeoStr() == "WGS-72"
     end
 
     @testset "envSetGeoStr" begin
@@ -51,27 +52,29 @@ end
     end
 
     @testset "envGetGeoIdx" begin
-        @test_broken SAASGP4.envGetGeoIdx()
+        @test SAASGP4.envGetGeoIdx() isa Integer
+        @test SAASGP4.envGetGeoIdx() == 72
     end
 
     @testset "envSetGeoIdx" begin
         @test_broken SAASGP4.envSetGeoIdx(id)
     end
 
-    @testset "envGetGeoConst" begin
-        @test_broken SAASGP4.envGetGeoConst(id)
+    @testset "envGetGeoConst" for id in 1:11
+        @test SAASGP4.envGetGeoConst(id) isa AbstractFloat
     end
 
     @testset "envGetFkIdx" begin
-        @test_broken SAASGP4.envGetFkIdx()
+        @test SAASGP4.envGetFkIdx() isa Integer
+        @test SAASGP4.envGetFkIdx() == 5
     end
 
     @testset "envSetFkIdx" begin
         @test_broken SAASGP4.envSetFkIdx(id)
     end
 
-    @testset "envGetFkConst" begin
-        @test_broken SAASGP4.envGetFkConst(id)
+    @testset "envGetFkConst" for id in 1:11
+        @test SAASGP4.envGetFkConst(id) isa AbstractFloat
     end
 
     @testset "envGetFkPtr" begin
@@ -101,7 +104,10 @@ end
     end
 
     @testset "DTGToUTC" begin
-        @test_broken SAASGP4.DTGToUTC(dtg)
+        dtg = "00051.47568104"
+        ds50UTC = 18313.47568104
+        @test SAASGP4.DTGToUTC(dtg) isa AbstractFloat
+        @test SAASGP4.DTGToUTC(dtg) == ds50UTC
     end
 end
 
