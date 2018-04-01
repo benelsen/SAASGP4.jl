@@ -113,6 +113,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "lib.html#SAASGP4.astroFuncGetInfo-Tuple{}",
+    "page": "Public",
+    "title": "SAASGP4.astroFuncGetInfo",
+    "category": "method",
+    "text": "astroFuncGetInfo()\n\nReturns information about the AstroFunc DLL\n\n\n\n"
+},
+
+{
     "location": "lib.html#SAASGP4.astroFuncInit-Tuple{Any}",
     "page": "Public",
     "title": "SAASGP4.astroFuncInit",
@@ -281,6 +289,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "lib.html#SAASGP4.sgp4GetInfo-Tuple{}",
+    "page": "Public",
+    "title": "SAASGP4.sgp4GetInfo",
+    "category": "method",
+    "text": "sgp4GetInfo()\n\nReturns information about the Sgp4 DLL\n\n\n\n"
+},
+
+{
     "location": "lib.html#SAASGP4.sgp4Init-Tuple{Any}",
     "page": "Public",
     "title": "SAASGP4.sgp4Init",
@@ -353,6 +369,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "lib.html#SAASGP4.timeFuncGetInfo-Tuple{}",
+    "page": "Public",
+    "title": "SAASGP4.timeFuncGetInfo",
+    "category": "method",
+    "text": "timeFuncGetInfo()\n\nReturns information about the TimeFunc DLL\n\n\n\n"
+},
+
+{
     "location": "lib.html#SAASGP4.timeFuncInit-Tuple{Any}",
     "page": "Public",
     "title": "SAASGP4.timeFuncInit",
@@ -366,6 +390,14 @@ var documenterSearchIndex = {"docs": [
     "title": "SAASGP4.tleAddSatFrLines",
     "category": "method",
     "text": "tleAddSatFrLines(line1, line2)\n\nAdds a TLE (satellite), using its directly specified first and second lines\n\n\n\n"
+},
+
+{
+    "location": "lib.html#SAASGP4.tleGetInfo-Tuple{}",
+    "page": "Public",
+    "title": "SAASGP4.tleGetInfo",
+    "category": "method",
+    "text": "tleGetInfo()\n\nReturns information about the Tle DLL\n\n\n\n"
 },
 
 {
