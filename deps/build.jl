@@ -1,7 +1,7 @@
 using BinaryProvider
 
 # Parse some basic command-line arguments
-const verbose = true # "--verbose" in ARGS
+const verbose = "--verbose" in ARGS
 const prefix = Prefix(get([a for a in ARGS if a != "--verbose"], 1, joinpath(@__DIR__, "usr")))
 products = [
     LibraryProduct(prefix, String["DllMain"], :dllmain),
@@ -33,11 +33,6 @@ if any(!satisfied(p; verbose=verbose) for p in products)
         error("Your platform $(Sys.MACHINE) is not supported by this package!")
     end
 end
-
-println(prefix)
-
-println(run(`ls -lsa $(prefix.path)/lib`))
-println(run(`ldd $(prefix.path)/lib/DllMain.so`))
 
 # Write out a deps.jl file that will contain mappings for our products
 write_deps_file(joinpath(@__DIR__, "deps.jl"), products, verbose=verbose)
