@@ -8,22 +8,22 @@ end
 
 @testset "DllMain" begin
     @testset "getLastErrMsg" begin
-        @test SAASGP4.getLastErrMsg() isa String
+        @test SAASGP4.getLastErrMsg() isa AbstractString
         @test SAASGP4.getLastErrMsg() == ""
     end
 
     @testset "getLastInfoMsg" begin
-        @test SAASGP4.getLastInfoMsg() isa String
+        @test SAASGP4.getLastInfoMsg() isa AbstractString
         @test SAASGP4.getLastInfoMsg() == ""
     end
 
     @testset "mainGetInfo" begin
-        @test SAASGP4.mainGetInfo() isa String
+        @test SAASGP4.mainGetInfo() isa AbstractString
         @test length(SAASGP4.mainGetInfo()) > 0
     end
 
     @testset "getInitDllNames" begin
-        @test SAASGP4.getInitDllNames() isa String
+        @test SAASGP4.getInitDllNames() isa AbstractString
         @test SAASGP4.getInitDllNames() == "Initialized Dlls: DllMain,TimeFunc,EnvConst,AstroFunc,Tle,Sgp4Prop,"
     end
 
@@ -38,7 +38,7 @@ end
 
 @testset "EnvConst" begin
     @testset "envGetInfo" begin
-        @test SAASGP4.envGetInfo() isa String
+        @test SAASGP4.envGetInfo() isa AbstractString
         @test length(SAASGP4.envGetInfo()) > 0
     end
 
@@ -89,14 +89,14 @@ end
 
 @testset "AstroFunc" begin
     @testset "astroFuncGetInfo" begin
-        @test SAASGP4.astroFuncGetInfo() isa String
+        @test SAASGP4.astroFuncGetInfo() isa AbstractString
         @test length(SAASGP4.astroFuncGetInfo()) > 0
     end
 end
 
 @testset "TimeFunc" begin
     @testset "timeFuncGetInfo" begin
-        @test SAASGP4.timeFuncGetInfo() isa String
+        @test SAASGP4.timeFuncGetInfo() isa AbstractString
         @test length(SAASGP4.timeFuncGetInfo()) > 0
     end
 
@@ -107,7 +107,7 @@ end
 
 @testset "Tle" begin
     @testset "tleGetInfo" begin
-        @test SAASGP4.tleGetInfo() isa String
+        @test SAASGP4.tleGetInfo() isa AbstractString
         @test length(SAASGP4.tleGetInfo()) > 0
     end
 
@@ -126,7 +126,7 @@ end
 
 @testset "Sgp4Prop" begin
     @testset "sgp4GetInfo" begin
-        @test SAASGP4.sgp4GetInfo() isa String
+        @test SAASGP4.sgp4GetInfo() isa AbstractString
         @test length(SAASGP4.sgp4GetInfo()) > 0
     end
 
