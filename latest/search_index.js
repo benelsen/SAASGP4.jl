@@ -89,14 +89,6 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "lib.html#Contents-1",
-    "page": "Public",
-    "title": "Contents",
-    "category": "section",
-    "text": ""
-},
-
-{
     "location": "lib.html#Index-1",
     "page": "Public",
     "title": "Index",
@@ -317,7 +309,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Public",
     "title": "SAASGP4.sgp4PropDs50UTC!",
     "category": "method",
-    "text": "sgp4PropDs50UTC!(satkey, ds50UTC, pos, vel, llh, mse)\n\nPropagates a satellite, represented by the satKey, to the time expressed in days since 1950, UTC\n\n\n\n"
+    "text": "sgp4PropDs50UTC!(pos, vel, llh, mse, satkey, ds50UTC)\n\nPropagates a satellite, represented by the satKey, to the time expressed in days since 1950, UTC\n\n\n\n"
 },
 
 {
@@ -333,7 +325,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Public",
     "title": "SAASGP4.sgp4PropMse!",
     "category": "method",
-    "text": "sgp4PropMse!(satkey, mse, pos, vel, llh, ds50UTC)\n\nPropagates a satellite, represented by the satKey, to the time expressed in minutes since the satellite\'s epoch time. Stores the results in the provided variables.\n\nExamples\n\njulia> pos = Array{Cdouble, 1}(undef, 3)\n3-element Array{Float64,1}:\n 0.0\n 0.0\n 0.0\n\njulia> vel = Array{Cdouble, 1}(undef, 3)\n3-element Array{Float64,1}:\n 0.0\n 0.0\n 0.0\n\njulia> llh = Array{Cdouble, 1}(undef, 3)\n3-element Array{Float64,1}:\n 0.0\n 0.0\n 0.0\n\njulia> ds50UTC = Ref{Cdouble}(0.0)\nBase.RefValue{Float64}(0.0)\n\njulia> SAASGP4.sgp4PropMse!(satkey, mse, pos, vel, llh, ds50UTC)\n\njulia> pos\n3-element Array{Float64,1}:\n 42155.0257401623\n   980.5342672211367\n    -9.307135121360039\n\njulia> vel\n3-element Array{Float64,1}:\n -0.07133558166329691\n  3.07373221015029\n -0.0018402927526264539\n\njulia> llh\n3-element Array{Float64,1}:\n    -0.012659361941212956\n    34.46169610621692\n 35788.29393717118\n\njulia> ds50UTC[]\n18314.489312984446\n\n\n\n"
+    "text": "sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)\n\nPropagates a satellite, represented by the satKey, to the time expressed in minutes since the satellite\'s epoch time. Stores the results in the provided variables.\n\nExamples\n\njulia> pos = Array{Cdouble, 1}(undef, 3)\n3-element Array{Float64,1}:\n 0.0\n 0.0\n 0.0\n\njulia> vel = Array{Cdouble, 1}(undef, 3)\n3-element Array{Float64,1}:\n 0.0\n 0.0\n 0.0\n\njulia> llh = Array{Cdouble, 1}(undef, 3)\n3-element Array{Float64,1}:\n 0.0\n 0.0\n 0.0\n\njulia> ds50UTC = Ref{Cdouble}(0.0)\nBase.RefValue{Float64}(0.0)\n\njulia> SAASGP4.sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)\n\njulia> pos\n3-element Array{Float64,1}:\n 42155.0257401623\n   980.5342672211367\n    -9.307135121360039\n\njulia> vel\n3-element Array{Float64,1}:\n -0.07133558166329691\n  3.07373221015029\n -0.0018402927526264539\n\njulia> llh\n3-element Array{Float64,1}:\n    -0.012659361941212956\n    34.46169610621692\n 35788.29393717118\n\njulia> ds50UTC[]\n18314.489312984446\n\n\n\n"
 },
 
 {
@@ -345,11 +337,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "lib.html#SAASGP4.sgp4RemoveAllSats-Tuple{Any}",
+    "location": "lib.html#SAASGP4.sgp4RemoveAllSats-Tuple{}",
     "page": "Public",
     "title": "SAASGP4.sgp4RemoveAllSats",
     "category": "method",
-    "text": "sgp4RemoveAllSats(satkey)\n\nRemoves all currently loaded satellites from memory\n\n\n\n"
+    "text": "sgp4RemoveAllSats()\n\nRemoves all currently loaded satellites from memory\n\n\n\n"
 },
 
 {
