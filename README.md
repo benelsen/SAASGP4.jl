@@ -8,10 +8,15 @@
 -->
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://benelsen.github.io/SAASGP4.jl/latest/)
 
+SAASGP4.jl is a thin Julia wrapper for the [SAA (Standardized Astrodynamic Algorithm) SGP4 library](https://www.astrodynamicstandards.org/).
+
 ## Installation
 
+SAASGP4.jl currently only works on x86_64 Linux and you might need to install `libiomp5` and/or `libiomp-dev`.
+
+The package is currently unregistered, but can be installed through clone:
 ```julia
-Pkg.add("https://github.com/benelsen/SAASGP4.jl")
+Pkg.clone("https://github.com/benelsen/SAASGP4.jl")
 ```
 
 <!--
@@ -55,3 +60,9 @@ end
 SAASGP4.sgp4RemoveSat(satkey)
 SAASGP4.tleRemoveSat(satkey)
 ```
+
+## License
+
+The underlying SGP4 library is non-export controlled, but subject to the [SGP4 Open License Agreement](SGP4_Open_License.txt).
+
+The wrapper itself is licensed under the [MIT "Expat" License](LICENSE.md).
