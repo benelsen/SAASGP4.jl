@@ -1,4 +1,4 @@
-using SAASGP4
+using SAASGP4, Compat
 
 @static if VERSION < v"0.7.0-DEV.2005"
     using Base.Test
@@ -28,11 +28,11 @@ end
     end
 
     @testset "openLogFile" begin
-        @test_broken SAASGP4.openLogFile(path)
+        @test_skip SAASGP4.openLogFile(path)
     end
 
     @testset "closeLogFile" begin
-        @test_broken SAASGP4.closeLogFile()
+        @test_skip SAASGP4.closeLogFile()
     end
 end
 
@@ -48,7 +48,7 @@ end
     end
 
     @testset "envSetGeoStr" begin
-        @test_broken SAASGP4.envSetGeoStr(geoStr)
+        @test_skip SAASGP4.envSetGeoStr(geoStr)
     end
 
     @testset "envGetGeoIdx" begin
@@ -57,7 +57,7 @@ end
     end
 
     @testset "envSetGeoIdx" begin
-        @test_broken SAASGP4.envSetGeoIdx(id)
+        @test_skip SAASGP4.envSetGeoIdx(id)
     end
 
     @testset "envGetGeoConst" for id in 1:11
@@ -70,7 +70,7 @@ end
     end
 
     @testset "envSetFkIdx" begin
-        @test_broken SAASGP4.envSetFkIdx(id)
+        @test_skip SAASGP4.envSetFkIdx(id)
     end
 
     @testset "envGetFkConst" for id in 1:11
@@ -78,15 +78,15 @@ end
     end
 
     @testset "envGetFkPtr" begin
-        @test_broken SAASGP4.envGetFkPtr()
+        @test_skip SAASGP4.envGetFkPtr()
     end
 
     @testset "envLoadFile" begin
-        @test_broken SAASGP4.envLoadFile(path)
+        @test_skip SAASGP4.envLoadFile(path)
     end
 
     @testset "envSaveFile" begin
-        @test_broken SAASGP4.envSaveFile(path, append = 0, format = 0)
+        @test_skip SAASGP4.envSaveFile(path, append = 0, format = 0)
     end
 end
 
@@ -117,16 +117,25 @@ end
         @test length(SAASGP4.tleGetInfo()) > 0
     end
 
+    line1 = "1 90021U RELEAS14 00051.47568104 +.00000184 +00000+0 +00000-4 0 0814"
+    line2 = "2 90021   0.0222 182.4923 0000720  45.6036 131.8822  1.00271328 1199"
     @testset "tleAddSatFrLines" begin
-        @test_broken SAASGP4.tleAddSatFrLines(line1, line2)
+        satkey = SAASGP4.tleAddSatFrLines(line1, line2)
+        @test satkey isa Integer
+        SAASGP4.tleRemoveSat(satkey)
+        # TODO: Check if `satkey` can actually be initialized, or if count is augmented
     end
 
     @testset "tleRemoveSat" begin
-        @test_broken SAASGP4.tleRemoveSat(satkey)
+        satkey = SAASGP4.tleAddSatFrLines(line1, line2)
+        @test_nowarn SAASGP4.tleRemoveSat(satkey)
+        # TODO: Check if `satkey` is actually removed
     end
 
     @testset "tleRemoveAllSats" begin
-        @test_broken SAASGP4.tleRemoveAllSats()
+        SAASGP4.tleAddSatFrLines(line1, line2)
+        @test_nowarn SAASGP4.tleRemoveAllSats()
+        # TODO: Check if all sats are actually removed
     end
 end
 
@@ -137,20 +146,30 @@ end
     end
 
     @testset "sgp4SetLicFilePath" begin
-        @test_broken SAASGP4.sgp4SetLicFilePath(licFilePath)
+        @test_skip SAASGP4.sgp4SetLicFilePath(licFilePath)
     end
 
+    line1 = "1 90021U RELEAS14 00051.47568104 +.00000184 +00000+0 +00000-4 0 0814"
+    line2 = "2 90021   0.0222 182.4923 0000720  45.6036 131.8822  1.00271328 1199"
+    satkey = SAASGP4.tleAddSatFrLines(line1, line2)
+
     @testset "sgp4InitSat" begin
-        @test_broken SAASGP4.sgp4InitSat(satkey)
+        @test_nowarn SAASGP4.sgp4InitSat(satkey)
+        # TODO: Check if `satkey` can actually be used to propagate
     end
 
     @testset "sgp4RemoveSat" begin
-        @test_broken SAASGP4.sgp4RemoveSat(satkey)
+        @test_nowarn SAASGP4.sgp4RemoveSat(satkey)
+        # TODO: Check if `satkey` is actually removed
     end
 
     @testset "sgp4RemoveAllSats" begin
-        @test_broken SAASGP4.sgp4RemoveAllSats(satkey)
+        SAASGP4.sgp4InitSat(satkey)
+        @test_nowarn SAASGP4.sgp4RemoveAllSats()
+        # TODO: Check if all sats are actually removed
     end
+
+    SAASGP4.sgp4InitSat(satkey)
 
     @testset "sgp4PropDs50UTC" begin
         ds50UTC = 18313.47568104 + 1.0 / 1440
@@ -163,6 +182,8 @@ end
         @test length(vel) === 3
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
+        # TODO: check values against references?
+        
         @test mse isa AbstractFloat
         @test mse ≈ 1.0
     end
@@ -183,6 +204,8 @@ end
         @test length(vel) === 3
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
+        # TODO: check values against references?
+        
         @test mse[] isa AbstractFloat
         @test mse[] ≈ 1.0
     end
@@ -198,6 +221,8 @@ end
         @test length(vel) === 3
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
+        # TODO: check values against references?
+        
         @test ds50UTC isa AbstractFloat
         @test ds50UTC ≈ 18313.47568104 + 1.0 / 1440
     end
@@ -218,6 +243,8 @@ end
         @test length(vel) === 3
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
+        # TODO: check values against references?
+        
         @test ds50UTC[] isa AbstractFloat
         @test ds50UTC[] ≈ 18313.47568104 + 1.0 / 1440
     end

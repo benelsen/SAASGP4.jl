@@ -453,11 +453,11 @@ function sgp4RemoveSat(satkey)
 end
 
 """
-    sgp4RemoveAllSats(satkey)
+    sgp4RemoveAllSats()
 
 Removes all currently loaded satellites from memory
 """
-function sgp4RemoveAllSats(satkey)
+function sgp4RemoveAllSats()
     retval = ccall((:Sgp4RemoveAllSats, sgp4prop),
         Cint,
         ())
