@@ -1,11 +1,6 @@
 
 # Library
 
-## Contents
-
-```@contents
-```
-
 ## Index
 
 ```@index
