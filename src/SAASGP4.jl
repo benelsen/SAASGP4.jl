@@ -413,7 +413,7 @@ end
 """
     sgp4SetLicFilePath(licFilePath)
 
-Initializes the Sgp4 DLL for use in the program
+Sets path to the Sgp4 Open License file if the license file is not in the current working folder
 """
 function sgp4SetLicFilePath(licFilePath)
     ccall((:Sgp4SetLicFilePath, sgp4prop),

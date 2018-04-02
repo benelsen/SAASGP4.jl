@@ -30,11 +30,12 @@ tmpdir = mktempdir()
     end
 
     @testset "openLogFile" begin
-        @test_skip SAASGP4.openLogFile(path)
+        @test_nowarn SAASGP4.openLogFile(joinpath(tmpdir, "log.txt"))
+        @test isfile(joinpath(tmpdir, "log.txt"))
     end
 
     @testset "closeLogFile" begin
-        @test_skip SAASGP4.closeLogFile()
+        @test_nowarn SAASGP4.closeLogFile()
     end
 end
 
@@ -183,6 +184,8 @@ end
         satkey = SAASGP4.tleAddSatFrLines(line1, line2)
         @test_nowarn SAASGP4.tleRemoveSat(satkey)
         # TODO: Check if `satkey` is actually removed
+
+        @test_throws ErrorException SAASGP4.tleRemoveSat(42)
     end
 
     @testset "tleRemoveAllSats" begin
@@ -199,7 +202,9 @@ end
     end
 
     @testset "sgp4SetLicFilePath" begin
-        @test_skip SAASGP4.sgp4SetLicFilePath(licFilePath)
+        @test_nowarn SAASGP4.sgp4SetLicFilePath(normpath(joinpath(@__DIR__, "../deps/usr/lib/")))
+        # TODO: Test for op. This only affects the library if it's called before `sgp4Init`.
+        #       But as the path is set during `__init__`, it is effectivly tested before this point.
     end
 
     line1 = "1 90021U RELEAS14 00051.47568104 +.00000184 +00000+0 +00000-4 0 0814"
@@ -209,11 +214,15 @@ end
     @testset "sgp4InitSat" begin
         @test_nowarn SAASGP4.sgp4InitSat(satkey)
         # TODO: Check if `satkey` can actually be used to propagate
+
+        @test_throws ErrorException SAASGP4.sgp4InitSat(42)
     end
 
     @testset "sgp4RemoveSat" begin
         @test_nowarn SAASGP4.sgp4RemoveSat(satkey)
         # TODO: Check if `satkey` is actually removed
+
+        @test_throws ErrorException SAASGP4.sgp4RemoveSat(42)
     end
 
     @testset "sgp4RemoveAllSats" begin
@@ -225,81 +234,93 @@ end
     SAASGP4.sgp4InitSat(satkey)
 
     @testset "sgp4PropDs50UTC" begin
-        ds50UTC = 18313.47568104 + 1.0 / 1440
+        @testset begin
+            ds50UTC = 18313.47568104 + 1.0 / 1440
 
-        pos, vel, llh, mse = SAASGP4.sgp4PropDs50UTC(satkey, ds50UTC)
+            pos, vel, llh, mse = SAASGP4.sgp4PropDs50UTC(satkey, ds50UTC)
 
-        @test pos isa Array{T, 1} where T <: AbstractFloat
-        @test length(pos) === 3
-        @test vel isa Array{T, 1} where T <: AbstractFloat
-        @test length(vel) === 3
-        @test llh isa Array{T, 1} where T <: AbstractFloat
-        @test length(llh) === 3
-        # TODO: check values against references?
+            @test pos isa Array{T, 1} where T <: AbstractFloat
+            @test length(pos) === 3
+            @test vel isa Array{T, 1} where T <: AbstractFloat
+            @test length(vel) === 3
+            @test llh isa Array{T, 1} where T <: AbstractFloat
+            @test length(llh) === 3
+            # TODO: check values against references?
 
-        @test mse isa AbstractFloat
-        @test mse ≈ 1.0
+            @test mse isa AbstractFloat
+            @test mse ≈ 1.0
+        end
+
+        @test_throws ErrorException SAASGP4.sgp4PropDs50UTC(42, 12345.678)
     end
 
     @testset "sgp4PropDs50UTC!" begin
-        ds50UTC = 18313.47568104 + 1.0 / 1440
+        @testset begin
+            ds50UTC = 18313.47568104 + 1.0 / 1440
 
-        pos = Array{Cdouble, 1}(undef, 3)
-        vel = Array{Cdouble, 1}(undef, 3)
-        llh = Array{Cdouble, 1}(undef, 3)
-        mse = Ref{Cdouble}(0.0)
+            pos = Array{Cdouble, 1}(undef, 3)
+            vel = Array{Cdouble, 1}(undef, 3)
+            llh = Array{Cdouble, 1}(undef, 3)
+            mse = Ref{Cdouble}(0.0)
 
-        SAASGP4.sgp4PropDs50UTC!(pos, vel, llh, mse, satkey, ds50UTC)
+            SAASGP4.sgp4PropDs50UTC!(pos, vel, llh, mse, satkey, ds50UTC)
 
-        @test pos isa Array{T, 1} where T <: AbstractFloat
-        @test length(pos) === 3
-        @test vel isa Array{T, 1} where T <: AbstractFloat
-        @test length(vel) === 3
-        @test llh isa Array{T, 1} where T <: AbstractFloat
-        @test length(llh) === 3
-        # TODO: check values against references?
+            @test pos isa Array{T, 1} where T <: AbstractFloat
+            @test length(pos) === 3
+            @test vel isa Array{T, 1} where T <: AbstractFloat
+            @test length(vel) === 3
+            @test llh isa Array{T, 1} where T <: AbstractFloat
+            @test length(llh) === 3
+            # TODO: check values against references?
 
-        @test mse[] isa AbstractFloat
-        @test mse[] ≈ 1.0
+            @test mse[] isa AbstractFloat
+            @test mse[] ≈ 1.0
+        end
     end
 
     @testset "sgp4PropMse" begin
-        mse = 1.0
+        @testset begin
+            mse = 1.0
 
-        pos, vel, llh, ds50UTC = SAASGP4.sgp4PropMse(satkey, mse)
+            pos, vel, llh, ds50UTC = SAASGP4.sgp4PropMse(satkey, mse)
 
-        @test pos isa Array{T, 1} where T <: AbstractFloat
-        @test length(pos) === 3
-        @test vel isa Array{T, 1} where T <: AbstractFloat
-        @test length(vel) === 3
-        @test llh isa Array{T, 1} where T <: AbstractFloat
-        @test length(llh) === 3
-        # TODO: check values against references?
+            @test pos isa Array{T, 1} where T <: AbstractFloat
+            @test length(pos) === 3
+            @test vel isa Array{T, 1} where T <: AbstractFloat
+            @test length(vel) === 3
+            @test llh isa Array{T, 1} where T <: AbstractFloat
+            @test length(llh) === 3
+            # TODO: check values against references?
 
-        @test ds50UTC isa AbstractFloat
-        @test ds50UTC ≈ 18313.47568104 + 1.0 / 1440
+            @test ds50UTC isa AbstractFloat
+            @test ds50UTC ≈ 18313.47568104 + 1.0 / 1440
+        end
+
+        @test_throws ErrorException SAASGP4.sgp4PropMse(42, 123.4567)
     end
 
     @testset "sgp4PropMse!" begin
-        mse = 1.0
+        @testset begin
+            mse = 1.0
 
-        pos = Array{Cdouble, 1}(undef, 3)
-        vel = Array{Cdouble, 1}(undef, 3)
-        llh = Array{Cdouble, 1}(undef, 3)
-        ds50UTC = Ref{Cdouble}(0.0)
+            pos = Array{Cdouble, 1}(undef, 3)
+            vel = Array{Cdouble, 1}(undef, 3)
+            llh = Array{Cdouble, 1}(undef, 3)
+            ds50UTC = Ref{Cdouble}(0.0)
 
-        SAASGP4.sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
+            SAASGP4.sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
 
-        @test pos isa Array{T, 1} where T <: AbstractFloat
-        @test length(pos) === 3
-        @test vel isa Array{T, 1} where T <: AbstractFloat
-        @test length(vel) === 3
-        @test llh isa Array{T, 1} where T <: AbstractFloat
-        @test length(llh) === 3
-        # TODO: check values against references?
+            @test pos isa Array{T, 1} where T <: AbstractFloat
+            @test length(pos) === 3
+            @test vel isa Array{T, 1} where T <: AbstractFloat
+            @test length(vel) === 3
+            @test llh isa Array{T, 1} where T <: AbstractFloat
+            @test length(llh) === 3
+            # TODO: check values against references?
 
-        @test ds50UTC[] isa AbstractFloat
-        @test ds50UTC[] ≈ 18313.47568104 + 1.0 / 1440
+            @test ds50UTC[] isa AbstractFloat
+            @test ds50UTC[] ≈ 18313.47568104 + 1.0 / 1440
+        end
     end
 end
 
