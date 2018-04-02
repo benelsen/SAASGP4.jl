@@ -276,6 +276,14 @@ end
             @test mse[] isa AbstractFloat
             @test mse[] ≈ 1.0
         end
+
+        @testset begin
+            pos = Array{Cdouble, 1}(undef, 3)
+            vel = Array{Cdouble, 1}(undef, 3)
+            llh = Array{Cdouble, 1}(undef, 3)
+            mse = Ref{Cdouble}(0.0)
+            @test_throws ErrorException SAASGP4.sgp4PropDs50UTC!(pos, vel, llh, mse, 42, 12345.678)
+        end
     end
 
     @testset "sgp4PropMse" begin
@@ -320,6 +328,14 @@ end
 
             @test ds50UTC[] isa AbstractFloat
             @test ds50UTC[] ≈ 18313.47568104 + 1.0 / 1440
+        end
+
+        @testset begin
+            pos = Array{Cdouble, 1}(undef, 3)
+            vel = Array{Cdouble, 1}(undef, 3)
+            llh = Array{Cdouble, 1}(undef, 3)
+            ds50UTC = Ref{Cdouble}(0.0)
+            @test_throws ErrorException SAASGP4.sgp4PropMse!(pos, vel, llh, ds50UTC, 42, 123.4567)
         end
     end
 end
