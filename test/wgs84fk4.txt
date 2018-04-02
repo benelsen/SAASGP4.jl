@@ -1,0 +1,7 @@
+
+
+
+*** Geopotential Model ***
+BCONST=WGS-84  
+*** FK Model ***
+FKCONST=FK4 

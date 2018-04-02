@@ -230,7 +230,7 @@ end
 Reads Earth constants (GEO) model and fundamental catalogue (FK) model settings from a file
 """
 function envLoadFile(path)
-    retval = ccall((:EnvSaveFile, envconst),
+    retval = ccall((:EnvLoadFile, envconst),
         Cint,
         (Cstring,),
         path)

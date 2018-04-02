@@ -6,6 +6,8 @@ else
     using Test
 end
 
+tmpdir = mktempdir()
+
 @testset "DllMain" begin
     @testset "getLastErrMsg" begin
         @test SAASGP4.getLastErrMsg() isa AbstractString
@@ -48,7 +50,18 @@ end
     end
 
     @testset "envSetGeoStr" begin
-        @test_skip SAASGP4.envSetGeoStr(geoStr)
+        @testset "value: $value" for value in ["WGS-84", "EGM-96", "WGS-72", "JGM2", "SEM68R", "GEM5", "GEM9"]
+            SAASGP4.envSetGeoStr(value)
+            @test SAASGP4.envGetGeoStr() == value
+        end
+
+        # Reset to WGS-72
+        SAASGP4.envSetGeoStr("WGS-72")
+        @test SAASGP4.envGetGeoStr() == "WGS-72"
+
+        # Set to invalid value is no-op
+        SAASGP4.envSetGeoStr("WGS-52")
+        @test SAASGP4.envGetGeoStr() == "WGS-72"
     end
 
     @testset "envGetGeoIdx" begin
@@ -57,10 +70,21 @@ end
     end
 
     @testset "envSetGeoIdx" begin
-        @test_skip SAASGP4.envSetGeoIdx(id)
+        @testset "id: $id" for id in [84, 96, 72, 2, 68, 5, 9]
+            SAASGP4.envSetGeoIdx(id)
+            @test SAASGP4.envGetGeoIdx() == id
+        end
+
+        # Reset to 72
+        SAASGP4.envSetGeoIdx(72)
+        @test SAASGP4.envGetGeoIdx() == 72
+
+        # Set to invalid number is no-op
+        SAASGP4.envSetGeoIdx(1)
+        @test SAASGP4.envGetGeoIdx() == 72
     end
 
-    @testset "envGetGeoConst" for id in 1:11
+    @testset "envGetGeoConst id: $id" for id in 1:11
         @test SAASGP4.envGetGeoConst(id) isa AbstractFloat
     end
 
@@ -70,23 +94,52 @@ end
     end
 
     @testset "envSetFkIdx" begin
-        @test_skip SAASGP4.envSetFkIdx(id)
+        SAASGP4.envSetFkIdx(4)
+        @test SAASGP4.envGetFkIdx() == 4
+
+        # Set to invalid number is no-op
+        SAASGP4.envSetFkIdx(8)
+        @test SAASGP4.envGetFkIdx() == 4
+
+        # Reset to 5
+        SAASGP4.envSetFkIdx(5)
+        @test SAASGP4.envGetFkIdx() == 5
     end
 
-    @testset "envGetFkConst" for id in 1:11
+    @testset "envGetFkConst id: $id" for id in 1:11
         @test SAASGP4.envGetFkConst(id) isa AbstractFloat
     end
 
     @testset "envGetFkPtr" begin
-        @test_skip SAASGP4.envGetFkPtr()
-    end
-
-    @testset "envLoadFile" begin
-        @test_skip SAASGP4.envLoadFile(path)
+        @test SAASGP4.envGetFkPtr() isa Integer
+        # TODO: Check if usable in ThetaGrnwch
     end
 
     @testset "envSaveFile" begin
-        @test_skip SAASGP4.envSaveFile(path, append = 0, format = 0)
+        path = joinpath(tmpdir, "envFile.txt")
+        @test_nowarn SAASGP4.envSaveFile(path)
+        @test isfile(path)
+
+        # Give empty file path
+        @test_throws ErrorException SAASGP4.envSaveFile("")
+
+        # Give impossible file path
+        @test_throws ErrorException SAASGP4.envSaveFile(joinpath(tmpdir, "bogus", "envFile.txt"))
+    end
+
+    @testset "envLoadFile" begin
+        # Check for actuall op to env constants
+        @test_nowarn SAASGP4.envLoadFile(joinpath(@__DIR__, "wgs84fk4.txt"))
+        @test SAASGP4.envGetFkIdx() == 4
+        @test SAASGP4.envGetGeoIdx() == 84
+
+        # Reset constants and check for file saved in `envSaveFile`
+        @test_nowarn SAASGP4.envLoadFile(joinpath(tmpdir, "envFile.txt"))
+        @test SAASGP4.envGetFkIdx() == 5
+        @test SAASGP4.envGetGeoIdx() == 72
+
+        # Give non-existant file path
+        @test_throws ErrorException SAASGP4.envLoadFile(joinpath(tmpdir, "bogus.txt"))
     end
 end
 
@@ -183,7 +236,7 @@ end
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
         # TODO: check values against references?
-        
+
         @test mse isa AbstractFloat
         @test mse ≈ 1.0
     end
@@ -205,7 +258,7 @@ end
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
         # TODO: check values against references?
-        
+
         @test mse[] isa AbstractFloat
         @test mse[] ≈ 1.0
     end
@@ -222,7 +275,7 @@ end
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
         # TODO: check values against references?
-        
+
         @test ds50UTC isa AbstractFloat
         @test ds50UTC ≈ 18313.47568104 + 1.0 / 1440
     end
@@ -244,8 +297,10 @@ end
         @test llh isa Array{T, 1} where T <: AbstractFloat
         @test length(llh) === 3
         # TODO: check values against references?
-        
+
         @test ds50UTC[] isa AbstractFloat
         @test ds50UTC[] ≈ 18313.47568104 + 1.0 / 1440
     end
 end
+
+rm(tmpdir, recursive = true)
