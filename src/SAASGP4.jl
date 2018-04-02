@@ -489,11 +489,11 @@ function sgp4PropDs50UTC(satkey, ds50UTC)
 end
 
 """
-    sgp4PropDs50UTC!(satkey, ds50UTC, pos, vel, llh, mse)
+    sgp4PropDs50UTC!(pos, vel, llh, mse, satkey, ds50UTC)
 
 Propagates a satellite, represented by the satKey, to the time expressed in days since 1950, UTC
 """
-function sgp4PropDs50UTC!(satkey, ds50UTC, pos, vel, llh, mse)
+function sgp4PropDs50UTC!(pos, vel, llh, mse, satkey, ds50UTC)
     retval = ccall((:Sgp4PropDs50UTC, sgp4prop),
         Cint,
         (Clonglong, Cdouble, Ref{Cdouble}, Ref{Cdouble}, Ref{Cdouble}, Ref{Cdouble}),
@@ -526,7 +526,7 @@ function sgp4PropMse(satkey, mse)
 end
 
 """
-    sgp4PropMse!(satkey, mse, pos, vel, llh, ds50UTC)
+    sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
 
 Propagates a satellite, represented by the satKey, to the time expressed in minutes since the satellite's epoch time.
 Stores the results in the provided variables.
@@ -554,7 +554,7 @@ julia> llh = Array{Cdouble, 1}(undef, 3)
 julia> ds50UTC = Ref{Cdouble}(0.0)
 Base.RefValue{Float64}(0.0)
 
-julia> SAASGP4.sgp4PropMse!(satkey, mse, pos, vel, llh, ds50UTC)
+julia> SAASGP4.sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
 
 julia> pos
 3-element Array{Float64,1}:
@@ -578,7 +578,7 @@ julia> ds50UTC[]
 18314.489312984446
 ```
 """
-function sgp4PropMse!(satkey, mse, pos, vel, llh, ds50UTC)
+function sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
     retval = ccall((:Sgp4PropMse, sgp4prop),
         Cint,
         (Clonglong, Cdouble, Ref{Cdouble}, Ref{Cdouble}, Ref{Cdouble}, Ref{Cdouble}),
