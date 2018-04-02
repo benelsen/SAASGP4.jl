@@ -357,7 +357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Public",
     "title": "SAASGP4.sgp4SetLicFilePath",
     "category": "method",
-    "text": "sgp4SetLicFilePath(licFilePath)\n\nInitializes the Sgp4 DLL for use in the program\n\n\n\n"
+    "text": "sgp4SetLicFilePath(licFilePath)\n\nSets path to the Sgp4 Open License file if the license file is not in the current working folder\n\n\n\n"
 },
 
 {
