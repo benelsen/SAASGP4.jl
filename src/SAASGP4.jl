@@ -587,7 +587,12 @@ function sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
         error(getLastErrMsg())
     end
 end
+"""
+    sgp4GetPropOut(satkey, index)
 
+Retrieves propagator's precomputed results. This function can be used to obtain results from a propagation
+which are not made available through calls to the propagation functions themselves.
+"""
 function sgp4GetPropOut(satkey, index)
     if index ∉ 1:4
         error("Invalid index, must be ∈ 1..4")
