@@ -588,4 +588,24 @@ function sgp4PropMse!(pos, vel, llh, ds50UTC, satkey, mse)
     end
 end
 
+function sgp4GetPropOut(satkey, index)
+    if index ∉ 1:4
+        error("Invalid index, must be ∈ 1..4")
+    end
+
+    datalength = index === 1 ? 1 : index === 2 ? 3 : 6
+    data = Array{Cdouble, 1}(undef, datalength)
+
+    retval = ccall((:Sgp4GetPropOut, sgp4prop),
+        Cint,
+        (Clonglong, Cint,  Ref{Cdouble}),
+        satkey,     index, data)
+    if retval != 0
+        error(getLastErrMsg())
+    end
+
+    data
+end
+
+
 end # module

@@ -338,6 +338,39 @@ end
             @test_throws ErrorException SAASGP4.sgp4PropMse!(pos, vel, llh, ds50UTC, 42, 123.4567)
         end
     end
+
+    @testset "sgp4GetPropOut" begin
+        tle1line1 = "1 90001U SGP4-VAL 93051.47568104 +.00000184  00000 0  00000-4 0 0814"
+        tle1line2 = "2 90001   0.0221 182.4922 0000720  45.6036 131.8822  1.0027132801199"
+
+        satkey1 = SAASGP4.tleAddSatFrLines(tle1line1, tle1line2)
+        SAASGP4.sgp4InitSat(satkey1)
+
+        @test_throws ErrorException SAASGP4.sgp4GetPropOut(satkey1, 0)
+
+        SAASGP4.sgp4PropMse(satkey1, 1.0)
+
+        data = SAASGP4.sgp4GetPropOut(satkey1, 1)
+        @test data isa Array{T, 1} where T <: AbstractFloat
+        @test length(data) === 1
+
+        data = SAASGP4.sgp4GetPropOut(satkey1, 2)
+        @test data isa Array{T, 1} where T <: AbstractFloat
+        @test length(data) === 3
+
+        data = SAASGP4.sgp4GetPropOut(satkey1, 3)
+        @test data isa Array{T, 1} where T <: AbstractFloat
+        @test length(data) === 6
+
+        data = SAASGP4.sgp4GetPropOut(satkey1, 4)
+        @test data isa Array{T, 1} where T <: AbstractFloat
+        @test length(data) === 6
+
+        @test_throws ErrorException SAASGP4.sgp4GetPropOut(satkey1, 0)
+        @test_throws ErrorException SAASGP4.sgp4GetPropOut(satkey1, 5)
+
+        # TODO: check values against references?
+    end
 end
 
 rm(tmpdir, recursive = true)
