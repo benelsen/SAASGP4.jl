@@ -289,6 +289,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "lib.html#SAASGP4.sgp4GetPropOut-Tuple{Any,Any}",
+    "page": "Public",
+    "title": "SAASGP4.sgp4GetPropOut",
+    "category": "method",
+    "text": "sgp4GetPropOut(satkey, index)\n\nRetrieves propagator\'s precomputed results. This function can be used to obtain results from a propagation which are not made available through calls to the propagation functions themselves.\n\n\n\n"
+},
+
+{
     "location": "lib.html#SAASGP4.sgp4Init-Tuple{Any}",
     "page": "Public",
     "title": "SAASGP4.sgp4Init",
@@ -385,6 +393,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "lib.html#SAASGP4.tleGetCount-Tuple{}",
+    "page": "Public",
+    "title": "SAASGP4.tleGetCount",
+    "category": "method",
+    "text": "tleGetCount()\n\nReturns the number of TLEs currently loaded\n\n\n\n"
+},
+
+{
     "location": "lib.html#SAASGP4.tleGetInfo-Tuple{}",
     "page": "Public",
     "title": "SAASGP4.tleGetInfo",
@@ -398,6 +414,14 @@ var documenterSearchIndex = {"docs": [
     "title": "SAASGP4.tleInit",
     "category": "method",
     "text": "tleInit(mainHandle)\n\nInitializes Tle DLL for use in the program\n\n\n\n"
+},
+
+{
+    "location": "lib.html#SAASGP4.tleLoadFile-Tuple{Any}",
+    "page": "Public",
+    "title": "SAASGP4.tleLoadFile",
+    "category": "method",
+    "text": "tleLoadFile(path)\n\nLoads TLEs (satellites) contained in a text file into the TLE DLL\'s binary tree\n\n\n\n"
 },
 
 {
