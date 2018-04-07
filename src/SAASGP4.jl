@@ -384,6 +384,34 @@ function tleRemoveAllSats()
     end
 end
 
+"""
+    tleLoadFile(path)
+
+Loads TLEs (satellites) contained in a text file into the TLE DLL's binary tree
+"""
+function tleLoadFile(path)
+
+    errCode = ccall((:TleLoadFile, tle),
+        Cint,
+        (Cstring,),
+        path)
+    if errCode != 0
+        error(getLastErrMsg())
+    end
+
+end
+
+"""
+    tleGetCount()
+
+Returns the number of TLEs currently loaded
+"""
+function tleGetCount()
+    ccall((:TleGetCount, tle),
+        Cint,
+        ())
+end
+
 
 # SGP4Prop
 

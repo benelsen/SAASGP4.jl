@@ -193,6 +193,22 @@ end
         @test_nowarn SAASGP4.tleRemoveAllSats()
         # TODO: Check if all sats are actually removed
     end
+
+    @testset "tleGetCount" begin
+        count = SAASGP4.tleGetCount()
+        @test count isa Integer
+        @test count == 0
+
+        SAASGP4.tleAddSatFrLines(line1, line2)
+        @test SAASGP4.tleGetCount() == 1
+        SAASGP4.tleRemoveAllSats()
+    end
+
+    @testset "tleLoadFile" begin
+        @test_nowarn SAASGP4.tleLoadFile(joinpath(@__DIR__, "verify/rel14.inp"))
+        @test SAASGP4.tleGetCount() == 14
+        SAASGP4.tleRemoveAllSats()
+    end
 end
 
 @testset "Sgp4Prop" begin
